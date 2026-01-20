@@ -187,7 +187,11 @@ async function getMovieDetails(id) {
 }
 
 function openModal(movie) {
-    const { title, poster_path, overview, vote_average, release_date, runtime, genres, credits, videos, tagline } = movie;
+    const {
+        title, poster_path, overview, vote_average, release_date,
+        runtime, genres, credits, videos, tagline,
+        budget, revenue, status, production_companies
+    } = movie;
 
     // Find trailer
     const trailer = videos.results.find(vid => vid.site === 'YouTube' && vid.type === 'Trailer') || videos.results[0];
@@ -196,6 +200,12 @@ function openModal(movie) {
     const genreNames = genres.map(g => g.name).join(', ');
     const hours = Math.floor(runtime / 60);
     const mins = runtime % 60;
+
+    // Format currency
+    const formatMoney = (amount) => {
+        if (!amount || amount === 0) return 'N/A';
+        return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(amount);
+    };
 
     modalBody.innerHTML = `
         <img class="modal-poster" src="${poster_path ? ORIGINAL_IMAGE_BASE_URL + poster_path : 'https://via.placeholder.com/500x750'}" alt="${title}">
@@ -206,11 +216,35 @@ function openModal(movie) {
             <div class="modal-meta">
                 <span class="meta-item">⭐ ${vote_average.toFixed(1)}</span>
                 <span class="meta-item">⏱ ${hours}h ${mins}m</span>
+                <span class="meta-item">${status}</span>
                 <span class="meta-item">${genreNames}</span>
             </div>
 
             <div class="modal-section-title">Overview</div>
             <p class="modal-overview">${overview}</p>
+
+            <div class="modal-section-title">Production & Finance</div>
+            <div class="financial-grid">
+                <div class="financial-item">
+                    <h4>Budget</h4>
+                    <p>${formatMoney(budget)}</p>
+                </div>
+                <div class="financial-item">
+                    <h4>Revenue</h4>
+                    <p>${formatMoney(revenue)}</p>
+                </div>
+                <div class="financial-item">
+                    <h4>Profit/Loss</h4>
+                    <p style="color: ${revenue > budget ? '#4cd137' : '#e84118'}">${formatMoney(revenue - budget)}</p>
+                </div>
+            </div>
+            
+            <div style="margin-bottom: 2rem;">
+                 <h4 style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 8px; text-transform: uppercase;">Production Companies</h4>
+                 <div class="production-companies">
+                    ${production_companies.map(c => `<span class="company-badge">${c.name}</span>`).join('')}
+                 </div>
+            </div>
 
             <div class="modal-section-title">Cast</div>
             <div class="cast-list">
