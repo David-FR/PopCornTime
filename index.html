@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trending Movies | Movie Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="app-header">
+        <div class="logo">
+            <h1>PopCorn<span>Time</span></h1>
+        </div>
+        <div class="search-container">
+            <input type="text" id="pass-key-input" placeholder="Enter TMDb API Key to start..." class="api-input">
+            <button id="set-key-btn">Load Dashboard</button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <section class="filters" id="genre-filters" style="display: none;">
+            <button class="filter-btn active" data-id="all">All</button>
+            <!-- Genres will be injected here -->
+        </section>
+
+        <section class="movies-grid" id="movies-container">
+            <div class="placeholder-message">
+                <h2>Welcome to PopCornTime</h2>
+                <p>Please enter your TMDb API Key above to load the trending movies.</p>
+                <p class="small">Don't have one? Get it at <a href="https://www.themoviedb.org/documentation/api" target="_blank">themoviedb.org</a></p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Powered by <a href="https://www.themoviedb.org/" target="_blank">TMDb</a></p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
